@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marta <marta@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:19:41 by mvigara           #+#    #+#             */
-/*   Updated: 2024/09/20 09:18:18 by marta            ###   ########.fr       */
+/*   Updated: 2024/11/29 01:56:47 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,6 @@ char				*ft_strtok(char *str, const char *delim);
 bool				ft_isodd(int n);
 int					ft_abs(int num);
 long				ft_strtol(const char *nptr, char **endptr, int base);
+double  			ft_atof(const char *str);
 
 #endif
