@@ -1,0 +1,62 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fractol.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/24 17:40:28 by mvigara-          #+#    #+#             */
+/*   Updated: 2024/11/29 01:41:00 by mvigara-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef FRACTOL_H
+# define FRACTOL_H
+
+# include "libft.h"
+# include <MLX42/MLX42.h>
+# include <math.h>
+# include <stdbool.h>
+# include <pthread.h>
+
+#define WIN_WIDTH 1100
+#define WIN_HEIGHT 800
+#define FRACT_SIZE 800
+
+typedef enum e_fractal_type
+{
+	NONE = 0,
+	MANDELBROT = 1,
+	JULIA = 2, 
+	BURNINGSHIP = 3
+} t_fractal_type;
+
+typedef struct s_complex
+{
+   double  re;
+   double  im;
+}   t_complex;
+
+typedef struct s_fractol
+{
+   mlx_t           *mlx;
+   mlx_image_t     *img;
+   char            **params;   //**argv
+   t_fractal_type  type;
+   t_complex       c;          // Julia set parameter
+   t_complex       z;          // Current point
+   double          zoom;       // Zoom level
+   double          shift_x;    // Pan position X
+   double          shift_y;    // Pan position Y
+   int             max_iter;   // Maximum iterations
+   int             color_shift;// Color palette rotation
+}   t_fractol;
+
+// Core functions
+bool    check_args(int argc, char **argv, t_fractol *fractol);
+int     print_usage(void);
+void    init_fractol(t_fractol *fractol);
+void    exit_error(t_fractol *f, char *msg);
+
+
+#endif
