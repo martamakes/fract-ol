@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 23:53:55 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/11/29 01:42:32 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/11/29 21:09:51 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,31 @@ static void	init_fractal_params(t_fractol *f)
         validate_julia_params(f, f->params);
 }
 
-void	init_fractol(t_fractol *f)
+void init_fractol(t_fractol *f)
 {
-	f->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "42 Fractol", true);
-	if (!f->mlx)
-		exit_error(f, "MLX initialization failed");
-	f->img = mlx_new_image(f->mlx, FRACT_SIZE, FRACT_SIZE);
-	if (!f->img)
-	{
-		mlx_terminate(f->mlx);
-		exit_error(f, "Image creation failed");
-	}
-	init_fractal_params(f);
-	if (mlx_image_to_window(f->mlx, f->img, 
-		(WIN_WIDTH - FRACT_SIZE) / 2, 0) < 0)
-	{
-		mlx_delete_image(f->mlx, f->img);
-		mlx_terminate(f->mlx);
-		exit_error(f, "Cannot put image to window");
-	}
+    f->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "42 Fractol", true);
+    if (!f->mlx)
+        exit_error(f, "MLX initialization failed");
+        
+    f->img = mlx_new_image(f->mlx, FRACT_SIZE, FRACT_SIZE);
+    if (!f->img)
+    {
+        mlx_terminate(f->mlx);
+        exit_error(f, "Image creation failed");
+    }
+    f->palettes = init_palettes();
+    f->palette = &f->palettes[0];
+    init_fractal_params(f);
+    if (mlx_image_to_window(f->mlx, f->img, (WIN_WIDTH - FRACT_SIZE) / 2, 0) < 0)
+    {
+        mlx_delete_image(f->mlx, f->img);
+        mlx_terminate(f->mlx);
+        exit_error(f, "Cannot put image to window");
+    }
+    calculate_mandelbrot(f);
+    render_fractal(f);
+    mlx_image_to_window(f->mlx, f->img, (WIN_WIDTH - FRACT_SIZE) / 2, 0);
+    mlx_loop(f->mlx);
+    mlx_loop(f->mlx);
 }
 
