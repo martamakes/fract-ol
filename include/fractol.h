@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:40:28 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/11/29 02:15:43 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/11/29 19:23:19 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,38 @@
 #define WIN_HEIGHT 800
 #define FRACT_SIZE 800
 
-typedef enum e_fractal_type
+typedef enum 		e_fractal_type
 {
 	NONE = 0,
 	MANDELBROT = 1,
 	JULIA = 2, 
 	BURNINGSHIP = 3
-} t_fractal_type;
+} 					t_fractal_type;
+
+typedef union 		u_color
+{
+    uint32_t 		value;
+    struct 
+	{
+        			uint8_t a;
+        			uint8_t b; 
+        			uint8_t g;
+        			uint8_t r;
+    } 				rgba;
+} 					t_color;
+
+typedef struct s_palette 
+{
+    int     		count;      // Número de colores en la paleta
+    int     		cycle;      // Ciclos de color (0 = sin ciclos)
+    int32_t 		colors[5];  // Array de colores
+} 					t_palette;
 
 typedef struct s_complex
 {
-   double  re;
-   double  im;
-}   t_complex;
+   double  			re;
+   double  			im;
+}   				t_complex;
 
 typedef struct s_fractol  
 {  
@@ -53,7 +72,11 @@ typedef struct s_fractol
     double          shift_y;    // Pan position Y  
     int             max_iter;   // Maximum iterations  
     int             color_shift;// Color palette rotation
-}   t_fractol;
+	t_palette   	*palettes;  // Array de paletas disponibles
+	int         	palette_index;
+	int         	palette_len;
+	bool        	smooth;     // Suavizado de colores
+}   				t_fractol;
 
 // Core functions
 bool    check_args(int argc, char **argv, t_fractol *fractol);

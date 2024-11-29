@@ -6,34 +6,27 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 15:57:09 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/11/29 02:14:24 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/11/29 19:20:41 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
-void ft_mandelbrot_set(t_fractol *fractol)
+void calculate_mandelbrot(t_fractol *f)
 {
-    double  x_scaled;
-    double  y_scaled;
-    double  temp;
-
-    // Escalamos el punto actual usando la estructura definida
-    x_scaled = (fractol->x - FRACT_SIZE / 2.0) * fractol->zoom / FRACT_SIZE + fractol->shift_x;
-    y_scaled = (fractol->y - FRACT_SIZE / 2.0) * fractol->zoom / FRACT_SIZE + fractol->shift_y;
+    t_complex   z;
+    t_complex   c;
     
-    // Inicializamos z (el punto actual)
-    fractol->z.re = 0;
-    fractol->z.im = 0;
-    fractol->iter = 0;
-
-    // La fórmula de Mandelbrot
-    while ((fractol->z.re * fractol->z.re + fractol->z.im * fractol->z.im) < 4 
-           && fractol->iter < fractol->max_iter)
+    c.re = (f->x - FRACT_SIZE / 2.0) * f->zoom / FRACT_SIZE + f->shift_x;
+    c.im = (f->y - FRACT_SIZE / 2.0) * f->zoom / FRACT_SIZE + f->shift_y;
+    z.re = 0;
+    z.im = 0;
+    f->iter = 0;
+    while ((z.re * z.re + z.im * z.im) < 4 && f->iter < f->max_iter)
     {
-        temp = fractol->z.re * fractol->z.re - fractol->z.im * fractol->z.im + x_scaled;
-        fractol->z.im = 2 * fractol->z.re * fractol->z.im + y_scaled;
-        fractol->z.re = temp;
-        fractol->iter++;
+        double temp = z.re * z.re - z.im * z.im + c.re;
+        z.im = 2.0 * z.re * z.im + c.im;
+        z.re = temp;
+        f->iter++;
     }
+    put_pixel_color(f);
 }
