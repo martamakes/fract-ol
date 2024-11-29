@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:40:28 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/11/29 19:23:19 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/11/29 21:10:16 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 # include <stdbool.h>
 # include <pthread.h>
 
-#define WIN_WIDTH 1100
-#define WIN_HEIGHT 800
-#define FRACT_SIZE 800
+#define WIN_WIDTH 	1100
+#define WIN_HEIGHT 	800
+#define FRACT_SIZE 	800
 
 typedef enum 		e_fractal_type
 {
@@ -72,6 +72,7 @@ typedef struct s_fractol
     double          shift_y;    // Pan position Y  
     int             max_iter;   // Maximum iterations  
     int             color_shift;// Color palette rotation
+	t_palette		*palette;	//palette actual
 	t_palette   	*palettes;  // Array de paletas disponibles
 	int         	palette_index;
 	int         	palette_len;
@@ -79,10 +80,16 @@ typedef struct s_fractol
 }   				t_fractol;
 
 // Core functions
-bool    check_args(int argc, char **argv, t_fractol *fractol);
-int     print_usage(void);
-void    init_fractol(t_fractol *fractol);
-void    exit_error(t_fractol *f, char *msg);
+bool    			check_args(int argc, char **argv, t_fractol *fractol);
+int     			print_usage(void);
+void   		 		init_fractol(t_fractol *fractol);
+void    			exit_error(t_fractol *f, char *msg);
+void				put_pixel_color(t_fractol *f);
+void				calculate_mandelbrot(t_fractol *f);
+t_palette			*init_palettes(void);
+void				render_fractal(t_fractol *f);
+
+
 
 
 #endif
