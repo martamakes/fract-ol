@@ -6,11 +6,12 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 15:57:09 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/11/29 19:20:41 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/11/29 19:27:47 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
 void calculate_mandelbrot(t_fractol *f)
 {
     t_complex   z;
@@ -21,6 +22,7 @@ void calculate_mandelbrot(t_fractol *f)
     z.re = 0;
     z.im = 0;
     f->iter = 0;
+    
     while ((z.re * z.re + z.im * z.im) < 4 && f->iter < f->max_iter)
     {
         double temp = z.re * z.re - z.im * z.im + c.re;
