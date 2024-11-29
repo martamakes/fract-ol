@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:40:28 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/11/29 01:41:00 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/11/29 02:15:43 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,22 @@ typedef struct s_complex
    double  im;
 }   t_complex;
 
-typedef struct s_fractol
-{
-   mlx_t           *mlx;
-   mlx_image_t     *img;
-   char            **params;   //**argv
-   t_fractal_type  type;
-   t_complex       c;          // Julia set parameter
-   t_complex       z;          // Current point
-   double          zoom;       // Zoom level
-   double          shift_x;    // Pan position X
-   double          shift_y;    // Pan position Y
-   int             max_iter;   // Maximum iterations
-   int             color_shift;// Color palette rotation
+typedef struct s_fractol  
+{  
+    mlx_t           *mlx;  
+    mlx_image_t     *img;  
+    char            **params;   //**argv  
+    t_fractal_type  type;  
+    t_complex       c;          // Julia set parameter  
+    t_complex       z;          // Current point
+    int             x;          // Current pixel x coordinate
+    int             y;          // Current pixel y coordinate
+    int             iter;       // Current iteration count  
+    double          zoom;       // Zoom level  
+    double          shift_x;    // Pan position X  
+    double          shift_y;    // Pan position Y  
+    int             max_iter;   // Maximum iterations  
+    int             color_shift;// Color palette rotation
 }   t_fractol;
 
 // Core functions
