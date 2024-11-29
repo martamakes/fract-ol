@@ -3,3 +3,5 @@
 obj/
 tree.txt
 *.DS_Store
+lib/MLX42/.init_done
+fractol
