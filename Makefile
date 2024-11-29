@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 17:45:41 by mvigara-          #+#    #+#              #
-#    Updated: 2024/11/26 19:20:20 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/11/29 02:42:37 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 INCLUDES = -I./include -I./lib/MLX42/include -I./lib/libft/inc
-INCLUDES += -I./include/tests
 
 # Detect the operating system
 UNAME_S := $(shell uname -s)
@@ -66,13 +65,11 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 clean:
 	@rm -rf $(OBJ_DIR)
 	@$(MAKE) -C lib/libft clean
-	@$(MAKE) -C tests clean
 	@echo "\033[0;31mObject files removed\033[0m"
 
 fclean: clean
 	@rm -f $(NAME)
 	@$(MAKE) -C lib/libft fclean
-	@$(MAKE) -C tests fclean
 	@rm -rf $(MLX_BUILD)
 	@rm -f $(MLX_INIT_MARK)
 	@echo "\033[0;31mExecutables removed\033[0m"
