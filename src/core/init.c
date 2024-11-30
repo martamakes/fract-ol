@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 23:53:55 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/11/29 21:09:51 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/11/30 07:29:56 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,11 @@ void init_fractol(t_fractol *f)
         mlx_terminate(f->mlx);
         exit_error(f, "Cannot put image to window");
     }
+    mlx_key_hook(f->mlx, &handle_keys, f);
+    mlx_scroll_hook(f->mlx, &handle_scroll, f);
+    mlx_loop_hook(f->mlx, &main_loop, f);
     calculate_mandelbrot(f);
     render_fractal(f);
-    mlx_image_to_window(f->mlx, f->img, (WIN_WIDTH - FRACT_SIZE) / 2, 0);
-    mlx_loop(f->mlx);
     mlx_loop(f->mlx);
 }
 
