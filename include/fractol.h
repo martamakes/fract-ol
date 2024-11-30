@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:40:28 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/11/30 07:27:30 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/11/30 11:35:34 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void				render_fractal(t_fractol *f);
 void    			handle_keys(mlx_key_data_t keydata, void *param);
 void    			handle_scroll(double xdelta, double ydelta, void *param);
 void    			main_loop(void *param);
+void				calculate_julia(t_fractol *f);
 
 
 
