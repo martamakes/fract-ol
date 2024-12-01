@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 10:18:03 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 11:01:19 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 13:56:10 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void calculate_burning_ship(t_fractol *f)
     z.re = 0;
     z.im = 0;
     f->iter = 0;
-    while ((z.re * z.re + z.im * z.im) < 2.0 && f->iter < f->max_iter)
+    while ((z.re * z.re + z.im * z.im) < 4.0 && f->iter < f->max_iter)
     {
         z.re = fabs(z.re);
         z.im = fabs(z.im);

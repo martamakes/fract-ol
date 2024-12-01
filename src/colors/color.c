@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:13:31 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 11:59:47 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 13:51:53 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static double	smooth_color(double iter, double max_iter, double zx, double zy)
 		log_zn = log(zx * zx + zy * zy) / 2.0;
 		nu = log(log_zn / log(2.0)) / log(2.0);
 		iter = iter + 1.0 - nu;
-		iter += 0.5 * sin(iter * 0.1);
+		iter += 0.25 * sin(iter * 0.05);
 	}
 	return (iter);
 }
@@ -57,25 +57,26 @@ void put_pixel_color(t_fractol *f)
     t_color     color2;
     double      smooth_iter;
     double      normalized_iter;
+    double      t;
+    int         index;
 
     if (f->iter >= f->max_iter)
         mlx_put_pixel(f->img, f->x, f->y, 0x000000FF);  // Negro para puntos en el conjunto
     else
     {
         smooth_iter = smooth_color(f->iter, f->max_iter, f->z.re, f->z.im);
-        normalized_iter = fmod(smooth_iter / 16.0, 1.0);  // Ajustado de 32.0 a 16.0 para más variación
-        
-        color1.value = f->palette->colors[(int)(normalized_iter * (f->palette->count - 1))];
-        color2.value = f->palette->colors[((int)(normalized_iter * (f->palette->count - 1)) + 1) % f->palette->count];
-        
-        final_color = interpolate_colors(color1, color2, 
-            normalized_iter * (f->palette->count - 1) - 
-            (int)(normalized_iter * (f->palette->count - 1)));
-            
+        normalized_iter = fmod(smooth_iter / 16.0, 1.0);
+        t = normalized_iter * (f->palette->count - 1);
+        index = (int)t;
+        t -= index;
+        t = t * t * (3 - 2 * t);  // Interpolación cúbica Hermite 
+        color1.value = f->palette->colors[index];
+        color2.value = f->palette->colors[(index + 1) % f->palette->count];
+        final_color = interpolate_colors(color1, color2, t);   
         mlx_put_pixel(f->img, f->x, f->y, get_color(
             final_color.rgba.r,
             final_color.rgba.g,
             final_color.rgba.b,
-            0xFF));  // Alpha siempre a 255
+            0xFF));
     }
 }
