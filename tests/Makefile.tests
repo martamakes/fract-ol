@@ -1,0 +1,56 @@
+# Test specific variables
+TEST_NAME = test_fractol
+TEST_SRCS = test_fractol.c
+TEST_OBJS = $(TEST_SRCS:.c=.o)
+
+# Project paths
+PROJECT_DIR = ..
+PROJECT_NAME = $(PROJECT_DIR)/fractol
+DEBUG_SCRIPT = ./debug_tests.sh
+
+# Include project's main Makefile variables
+include ../Makefile
+
+# Additional flags for tests
+TEST_FLAGS = $(CFLAGS) -I../include
+CRITERION_FLAGS = -lcriterion
+
+# Rules
+test: project_build $(TEST_NAME)
+	@if [ ! -f $(DEBUG_SCRIPT) ]; then \
+		echo "\033[0;31mError: debug_tests.sh not found\033[0m"; \
+		exit 1; \
+	fi
+	@chmod +x $(DEBUG_SCRIPT)
+	@$(DEBUG_SCRIPT)
+
+test_debug: project_build $(TEST_NAME)
+	@chmod +x $(DEBUG_SCRIPT)
+	@$(DEBUG_SCRIPT) debug
+
+test_memory: project_build $(TEST_NAME)
+	@chmod +x $(DEBUG_SCRIPT)
+	@$(DEBUG_SCRIPT) memory
+
+# Rule to build main project
+project_build:
+	@echo "\033[0;34mBuilding main project...\033[0m"
+	@$(MAKE) -C $(PROJECT_DIR)
+	@echo "\033[0;32mMain project built successfully!\033[0m"
+
+$(TEST_NAME): $(TEST_OBJS)
+	$(CC) $(TEST_FLAGS) $(TEST_OBJS) -o $(TEST_NAME) $(CRITERION_FLAGS) -L$(PROJECT_DIR) -lfractol
+
+%.o: %.c
+	$(CC) $(TEST_FLAGS) -c $< -o $@
+
+clean_tests:
+	rm -f $(TEST_OBJS) $(TEST_NAME)
+	rm -f valgrind-out.txt
+
+fclean_tests: clean_tests
+	$(MAKE) -C $(PROJECT_DIR) fclean
+
+re_tests: fclean_tests test
+
+.PHONY: test test_debug test_memory clean_tests fclean_tests re_tests project_build
