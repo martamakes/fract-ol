@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 17:45:41 by mvigara-          #+#    #+#              #
-#    Updated: 2024/11/29 02:42:37 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/01 10:21:34 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ MLX_INIT_MARK = $(MLX_DIR)/.init_done
 # macOS specific configuration
 ifeq ($(UNAME_S),Darwin)
     LDFLAGS = -L$(MLX_BUILD) -lmlx42 -L/opt/homebrew/Cellar/glfw/3.4/lib -lglfw \
-              -framework Cocoa -framework OpenGL -framework IOKit
+              -framework Cocoa -framework OpenGL -framework IOKit -lm
 endif
 
 # Linux specific configuration
