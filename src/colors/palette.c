@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 12:03:04 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/11/30 13:14:27 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 10:34:19 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,27 +27,22 @@ t_palette *init_palettes(void)
     static t_palette array[6];
     
     array[0] = (t_palette){5, 0, {
-        0xFF000066, 0xFF0033CC, 0xFF3366FF, 0xFF33CCFF, 0xFF66FFFF
+        0xFF1E1E5A, 0xFF4B0082, 0xFFDA70D6, 0xFFFFD700, 0xFF00CED1
     }};
     array[1] = (t_palette){5, 0, {
-        0xFF000000, 0xFF440000, 0xFF880000, 0xFFBB0000, 0xFFFF0000
+        0xFF000033, 0xFF0066CC, 0xFFFF69B4, 0xFFFFD700, 0xFF87CEEB
     }};
     array[2] = (t_palette){5, 0, {
-        0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 0xFFFF00FF, 0xFFFFFF00
+        0xFF191970, 0xFF4169E1, 0xFFB8860B, 0xFFFF8C00, 0xFFE6E6FA
     }};
-    array[3] = (t_palette){5, 0, {
-        0xFF004400, 0xFF006600, 0xFF008800, 0xFF00AA00, 0xFF00FF00
+        array[3] = (t_palette){5, 0, {
+        0xFF000080, 0xFF4B0082, 0xFF800080, 0xFFDB7093, 0xFFADD8E6
     }};
     array[4] = (t_palette){5, 0, {
-        0xFFFFB732, 0xFFFF9300, 0xFFFF5500, 0xFFFF0000, 0xFF660000
+        0xFF191970, 0xFF6A5ACD, 0xFF9370DB, 0xFFEE82EE, 0xFFFFA07A
     }};
-        array[5] = (t_palette){5, 0, {
-        0xFF1E90FF,  // Azul dodger
-        0xFFFF69B4,  // Rosa hot pink
-        0xFFFFD700,  // Dorado
-        0xFF00CED1,  // Turquesa oscuro
-        0xFFFF8C00   // Naranja oscuro
+    array[5] = (t_palette){5, 0, {
+        0xFF000033, 0xFF003366, 0xFF0099CC, 0xFF00CCFF, 0xFFFFFFFF
     }};
     return (array);
 }
-

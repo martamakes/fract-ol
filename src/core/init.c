@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 23:53:55 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/11/30 13:08:42 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 10:40:28 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void validate_julia_params(t_fractol *f, char **argv)
 void init_fractal_params(t_fractol *f)
 {
     f->zoom = 4.0;
-    f->max_iter = 100;
+    f->max_iter = 1150;  // Cambiado de 100 a 1150
     f->shift_x = -0.5;
     f->shift_y = 0.0;
     f->palettes = init_palettes();
