@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 20:48:56 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/11/30 11:22:54 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/11/30 12:05:00 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,11 @@ void handle_keys(mlx_key_data_t keydata, void *param)
     fractol = (t_fractol *)param;
     if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
         mlx_close_window(fractol->mlx);
+    if (keydata.key == MLX_KEY_C && keydata.action == MLX_PRESS)
+    {
+        fractol->palette_index = (fractol->palette_index + 1) % fractol->palette_len;
+        fractol->palette = &fractol->palettes[fractol->palette_index];
+    }
 }
 
 void main_loop(void *param)

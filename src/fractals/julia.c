@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 11:34:37 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/11/30 11:36:11 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/11/30 13:42:55 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ void calculate_julia(t_fractol *f)
         z.re = temp;
         f->iter++;
     }
+    f->z = z;
     put_pixel_color(f);
 }

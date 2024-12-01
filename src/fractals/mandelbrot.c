@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 15:57:09 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/11/29 19:27:47 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/11/30 13:42:21 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,7 @@ void calculate_mandelbrot(t_fractol *f)
         z.re = temp;
         f->iter++;
     }
+    // Guardamos los valores finales de z
+    f->z = z;
     put_pixel_color(f);
 }
