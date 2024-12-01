@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 10:31:17 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 10:41:16 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 11:12:43 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ void handle_scroll(double xdelta, double ydelta, void *param)
     mouse_re = (mouse_x - FRACT_SIZE/2.0) * f->zoom / FRACT_SIZE + f->shift_x;
     mouse_im = (mouse_y - FRACT_SIZE/2.0) * f->zoom / FRACT_SIZE + f->shift_y;
     update_zoom(f, ydelta);
+    if (f->zoom < 0.1)
+        f->max_iter = (int)(100 * (1 / f->zoom) * 0.2);
+    else
+        f->max_iter = 100;    
+    f->max_iter = fmin(f->max_iter, 1000);
     f->shift_x = mouse_re - (mouse_x - FRACT_SIZE/2.0) * f->zoom / FRACT_SIZE;
     f->shift_y = mouse_im - (mouse_y - FRACT_SIZE/2.0) * f->zoom / FRACT_SIZE;
 }

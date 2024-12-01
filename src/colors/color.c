@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:13:31 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/11/30 13:17:11 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 11:19:47 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,24 +55,19 @@ void put_pixel_color(t_fractol *f)
     t_color     final_color;
     double      smooth_iter;
     uint32_t    rgba;
-
-    if (f->iter >= f->max_iter)
-        mlx_put_pixel(f->img, f->x, f->y, 0x000000FF);
+    double      mod;
+    
+    mod = (f->z.re * f->z.re + f->z.im * f->z.im);
+    if (f->iter >= f->max_iter || mod <= 2.0)
+        mlx_put_pixel(f->img, f->x, f->y, 0xFFFFFFFF);
     else
     {
-        // Aplicar suavizado
         smooth_iter = smooth_color(f->iter, f->max_iter, f->z.re, f->z.im);
-        
-        // Calcular índices de color
         int index1 = ((int)smooth_iter) % f->palette->count;
         int index2 = (index1 + 1) % f->palette->count;
-        
-        // Obtener fracción para interpolación
-        double fract = smooth_iter - floor(smooth_iter);
-        
+        double fract = smooth_iter - floor(smooth_iter);  
         color1.value = f->palette->colors[index1];
-        color2.value = f->palette->colors[index2];
-        
+        color2.value = f->palette->colors[index2];  
         final_color = interpolate_colors(color1, color2, fract);
         rgba = get_color(final_color.rgba.r, final_color.rgba.g, 
                         final_color.rgba.b, final_color.rgba.a);

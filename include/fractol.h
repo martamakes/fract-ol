@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:40:28 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 10:19:23 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 11:15:20 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 # include <stdbool.h>
 # include <pthread.h>
 
-#define WIN_WIDTH 	1100
-#define WIN_HEIGHT 	800
-#define FRACT_SIZE 	800
+#define WIN_WIDTH   300
+#define WIN_HEIGHT  300
+#define FRACT_SIZE  300
 
 typedef enum 		e_fractal_type
 {

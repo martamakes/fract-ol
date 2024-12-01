@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 11:34:37 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/11/30 13:42:55 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 11:01:31 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void calculate_julia(t_fractol *f)
     z.re = (f->x - FRACT_SIZE / 2.0) * f->zoom / FRACT_SIZE + f->shift_x;
     z.im = (f->y - FRACT_SIZE / 2.0) * f->zoom / FRACT_SIZE + f->shift_y;
     f->iter = 0;
-    while ((z.re * z.re + z.im * z.im) < 4 && f->iter < f->max_iter)
+    while ((z.re * z.re + z.im * z.im) < 2.0 && f->iter < f->max_iter)
     {
         temp = z.re * z.re - z.im * z.im + f->c.re;
         z.im = 2.0 * z.re * z.im + f->c.im;

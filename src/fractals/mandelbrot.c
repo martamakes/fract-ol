@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 15:57:09 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/11/30 13:42:21 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 11:01:44 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ void calculate_mandelbrot(t_fractol *f)
     c.im = (f->y - FRACT_SIZE / 2.0) * f->zoom / FRACT_SIZE + f->shift_y;
     z.re = 0;
     z.im = 0;
-    f->iter = 0;
-    
-    while ((z.re * z.re + z.im * z.im) < 4 && f->iter < f->max_iter)
+    f->iter = 0;  
+   while ((z.re * z.re + z.im * z.im) < 2.0 && f->iter < f->max_iter)
     {
         double temp = z.re * z.re - z.im * z.im + c.re;
         z.im = 2.0 * z.re * z.im + c.im;
