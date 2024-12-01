@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 10:31:17 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 11:12:43 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 11:50:53 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,28 @@
 
 static void update_iterations(t_fractol *f)
 {
+    double log_zoom;
+    int base_iter;
     int new_iter;
     
-    new_iter = (int)(1150 * (1 + log10(4.0/f->zoom)));
-    if (new_iter > 2500)
-        new_iter = 2500;
-    if (new_iter < 1150)
-        new_iter = 1150;
+    base_iter = 100;
+    log_zoom = log10(4.0/f->zoom);
+    if (log_zoom < 0)
+        log_zoom = 0;
+    new_iter = (int)(base_iter * (1 + log_zoom * 1.5));
+    if (new_iter > 1000)
+        new_iter = 1000;
+    if (new_iter < base_iter)
+        new_iter = base_iter;
     f->max_iter = new_iter;
 }
 
 static void update_zoom(t_fractol *f, double ydelta)
 {
-    if (ydelta > 0)
-        f->zoom *= 0.9;
-    else if (ydelta < 0)
-        f->zoom *= 1.1;
+    double zoom_factor;
+    
+    zoom_factor = (ydelta > 0) ? 0.95 : 1.05;
+    f->zoom *= zoom_factor;
     update_iterations(f);
 }
 

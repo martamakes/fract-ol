@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:13:31 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 11:36:54 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 11:59:47 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,28 +50,32 @@ static t_color	interpolate_colors(t_color c1, t_color c2, double t)
 	return (result);
 }
 
-void	put_pixel_color(t_fractol *f)
+void put_pixel_color(t_fractol *f)
 {
-	t_color		final_color;
-	t_color		color1;
-	t_color		color2;
-	double		smooth_iter;
-	double		normalized_iter;
+    t_color     final_color;
+    t_color     color1;
+    t_color     color2;
+    double      smooth_iter;
+    double      normalized_iter;
 
-	if (f->iter >= f->max_iter || (f->z.re * f->z.re + f->z.im * f->z.im) <= 4.0)
-		mlx_put_pixel(f->img, f->x, f->y, 0xFF000000);
-	else
-	{
-		smooth_iter = smooth_color(f->iter, f->max_iter, f->z.re, f->z.im);
-		normalized_iter = fmod(smooth_iter / 32.0, 1.0);
-		color1.value = f->palette->colors[(int)(normalized_iter
-				* (f->palette->count - 1))];
-		color2.value = f->palette->colors[((int)(normalized_iter
-				* (f->palette->count - 1)) + 1) % f->palette->count];
-		final_color = interpolate_colors(color1, color2, normalized_iter
-				* (f->palette->count - 1) - (int)(normalized_iter
-				* (f->palette->count - 1)));
-		mlx_put_pixel(f->img, f->x, f->y, get_color(final_color.rgba.r,
-				final_color.rgba.g, final_color.rgba.b, final_color.rgba.a));
-	}
+    if (f->iter >= f->max_iter)
+        mlx_put_pixel(f->img, f->x, f->y, 0x000000FF);  // Negro para puntos en el conjunto
+    else
+    {
+        smooth_iter = smooth_color(f->iter, f->max_iter, f->z.re, f->z.im);
+        normalized_iter = fmod(smooth_iter / 16.0, 1.0);  // Ajustado de 32.0 a 16.0 para más variación
+        
+        color1.value = f->palette->colors[(int)(normalized_iter * (f->palette->count - 1))];
+        color2.value = f->palette->colors[((int)(normalized_iter * (f->palette->count - 1)) + 1) % f->palette->count];
+        
+        final_color = interpolate_colors(color1, color2, 
+            normalized_iter * (f->palette->count - 1) - 
+            (int)(normalized_iter * (f->palette->count - 1)));
+            
+        mlx_put_pixel(f->img, f->x, f->y, get_color(
+            final_color.rgba.r,
+            final_color.rgba.g,
+            final_color.rgba.b,
+            0xFF));  // Alpha siempre a 255
+    }
 }

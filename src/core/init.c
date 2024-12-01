@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 23:53:55 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 11:03:57 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 12:10:12 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,46 +54,42 @@ static void validate_julia_params(t_fractol *f, char **argv)
 void init_fractal_params(t_fractol *f)
 {
     f->zoom = 4.0;
-    f->max_iter = 50;
-    f->shift_x = 0.0;
-    if (f->type == MANDELBROT)
-        f->shift_x = -0.5;
+    f->max_iter = 30;  // Aumentamos las iteraciones iniciales
+    f->shift_x = -0.5;  // Para Mandelbrot
     f->shift_y = 0.0;
     f->palettes = init_palettes();
     f->palette_index = 0;
     f->palette = &f->palettes[0];
     f->palette_len = palette_len(f->palettes);
-    f->smooth = false;
+    f->smooth = true;  // Activamos el suavizado por defecto
     if (f->type == JULIA)
+    {
+        f->shift_x = 0.0;  // Reset para Julia
         validate_julia_params(f, f->params);
+    }
 }
 
 void init_fractol(t_fractol *f)
 {
     f->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "42 Fractol", true);
     if (!f->mlx)
-        exit_error(f, "MLX initialization failed");
-        
+        exit_error(f, "MLX initialization failed");        
     f->img = mlx_new_image(f->mlx, FRACT_SIZE, FRACT_SIZE);
     if (!f->img)
     {
         mlx_terminate(f->mlx);
         exit_error(f, "Image creation failed");
-    }
-    f->palettes = init_palettes();
-    f->palette = &f->palettes[0];
-    init_fractal_params(f);
+    }   
+    init_fractal_params(f);   
     if (mlx_image_to_window(f->mlx, f->img, (WIN_WIDTH - FRACT_SIZE) / 2, 0) < 0)
     {
         mlx_delete_image(f->mlx, f->img);
         mlx_terminate(f->mlx);
         exit_error(f, "Cannot put image to window");
-    }
+    }   
     mlx_key_hook(f->mlx, &handle_keys, f);
     mlx_scroll_hook(f->mlx, &handle_scroll, f);
     mlx_loop_hook(f->mlx, &main_loop, f);
-    calculate_mandelbrot(f);
-    render_fractal(f);
+    render_fractal(f);  // Solo llamamos a render_fractal una vez
     mlx_loop(f->mlx);
 }
-

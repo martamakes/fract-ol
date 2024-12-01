@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:40:28 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 11:15:20 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 12:08:06 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ typedef union 		u_color
 
 typedef struct s_palette 
 {
-    int     		count;      // Número de colores en la paleta
-    int     		cycle;      // Ciclos de color (0 = sin ciclos)
-    int32_t 		colors[5];  // Array de colores
+    int     		count;
+    int     		cycle;
+    int32_t 		colors[9];
 } 					t_palette;
 
 typedef struct s_complex
