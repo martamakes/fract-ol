@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
+/*   By: mvigara- <mvigara-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:40:28 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 12:08:06 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/02 14:13:53 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 # include <stdbool.h>
 # include <pthread.h>
 
-#define WIN_WIDTH   300
-#define WIN_HEIGHT  300
-#define FRACT_SIZE  300
+#define WIN_WIDTH   800
+#define WIN_HEIGHT  600
+#define FRACT_SIZE  800
 
 typedef enum 		e_fractal_type
 {
