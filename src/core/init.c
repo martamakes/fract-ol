@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
+/*   By: mvigara- <mvigara-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 23:53:55 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 12:10:12 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/02 12:33:32 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void validate_julia_params(t_fractol *f, char **argv)
 void init_fractal_params(t_fractol *f)
 {
     f->zoom = 4.0;
-    f->max_iter = 30;  // Aumentamos las iteraciones iniciales
+    f->max_iter = 60;  // Aumentamos las iteraciones iniciales
     f->shift_x = -0.5;  // Para Mandelbrot
     f->shift_y = 0.0;
     f->palettes = init_palettes();

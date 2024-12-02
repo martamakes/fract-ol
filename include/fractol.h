@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
+/*   By: mvigara- <mvigara-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:40:28 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 12:08:06 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/02 13:34:49 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,13 @@
 # include <stdbool.h>
 # include <pthread.h>
 
-#define WIN_WIDTH   300
-#define WIN_HEIGHT  300
-#define FRACT_SIZE  300
+#define WIN_WIDTH   600
+#define WIN_HEIGHT  800
+#define FRACT_SIZE  800
+
+# ifndef M_PI
+#  define M_PI 3.14159265358979323846
+# endif
 
 typedef enum 		e_fractal_type
 {
@@ -50,11 +54,20 @@ typedef struct s_palette
     int32_t 		colors[9];
 } 					t_palette;
 
+typedef struct s_hsv
+{
+    double h;  // Hue [0, 360)
+    double s;  // Saturation [0, 1]
+    double v;  // Value [0, 1]
+} t_hsv;
+
 typedef struct s_complex
 {
    double  			re;
    double  			im;
 }   				t_complex;
+
+
 
 typedef struct s_fractol  
 {  
@@ -79,6 +92,8 @@ typedef struct s_fractol
 	bool        	smooth;     // Suavizado de colores
 }   				t_fractol;
 
+
+
 // Core functions
 bool    			check_args(int argc, char **argv, t_fractol *fractol);
 int     			print_usage(void);
@@ -95,6 +110,11 @@ void				calculate_julia(t_fractol *f);
 int					palette_len(t_palette *palettes);
 t_palette 			*init_palettes(void);
 void 				calculate_burning_ship(t_fractol *f);
+t_hsv               rgb2hsv(t_color rgb);
+t_color             hsv2rgb(t_hsv hsv);
+t_hsv               interpolate_hsv(t_hsv color1, t_hsv color2, double t);
+
+
 
 
 
