@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "fractol.h"
+#include "fractol.h"
 
 static void update_iterations(t_fractol *f)
 {

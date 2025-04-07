@@ -43,8 +43,11 @@ Test(fractol_graphics, window_creation) {
 
 /* Parameter Management Tests */
 Test(fractol_params, parameter_validation) {
+    t_fractol fractol;
     char *argv[] = {"fractol", "mandelbrot", NULL};
-    cr_assert(check_args(2, argv) == 0, "Valid parameters should be accepted");
+    fractol.type = NONE;
+    cr_assert(check_args(2, argv, &fractol) == true, "Valid parameters should be accepted");
+    cr_assert(fractol.type == MANDELBROT, "Fractol type should be set to MANDELBROT");
 }
 
 /* Memory Management Tests */

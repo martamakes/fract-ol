@@ -54,17 +54,17 @@ static void validate_julia_params(t_fractol *f, char **argv)
 void init_fractal_params(t_fractol *f)
 {
     f->zoom = 4.0;
-    f->max_iter = 1000;  // Aumentamos las iteraciones iniciales
-    f->shift_x = -0.5;  // Para Mandelbrot
+    f->max_iter = 1000;  /* Aumentamos las iteraciones iniciales */
+    f->shift_x = -0.5;  /* Para Mandelbrot */
     f->shift_y = 0.0;
     f->palettes = init_palettes();
     f->palette_index = 0;
     f->palette = &f->palettes[0];
     f->palette_len = palette_len(f->palettes);
-    f->smooth = true;  // Activamos el suavizado por defecto
+    f->smooth = true;  /* Activamos el suavizado por defecto */
     if (f->type == JULIA)
     {
-        f->shift_x = 0.0;  // Reset para Julia
+        f->shift_x = 0.0;  /* Reset para Julia */
         validate_julia_params(f, f->params);
     }
 }
