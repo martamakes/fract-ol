@@ -22,17 +22,36 @@ static uint32_t	get_color(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 
 /*
  * Suaviza el valor de iteración para colores más continuos
+ * con mejora específica para el Burning Ship
  */
-static double	smooth_color(double iter, double max_iter, double zx, double zy)
+static double	smooth_color(double iter, double max_iter, double zx, double zy, t_fractal_type type)
 {
 	double	log_zn;
 	double	nu;
 
 	if (iter < max_iter)
 	{
-		log_zn = log(zx * zx + zy * zy) / 2.0;
-		nu = log(log_zn / log(2.0)) / log(2.0);
-		iter = iter + 1.0 - nu;
+		/* Cálculo mejorado para el Burning Ship */
+		if (type == BURNINGSHIP)
+		{
+			/* El Burning Ship necesita un enfoque diferente debido a los valores absolutos */
+			log_zn = log(zx * zx + zy * zy);
+			nu = log(log_zn / log(2.0)) / log(2.0);
+			
+			/* Factor de ajuste optimizado para el Burning Ship */
+			iter = iter + 1.0 - 0.6 * nu;
+			
+			/* Limitamos el factor de suavizado para reducir puntos aislados */
+			if (nu > 0.5)
+				iter = floor(iter) + 0.5;
+		}
+		else
+		{
+			/* Estándar para Mandelbrot y Julia */
+			log_zn = log(zx * zx + zy * zy) / 2.0;
+			nu = log(log_zn / log(2.0)) / log(2.0);
+			iter = iter + 1.0 - nu;
+		}
 	}
 	return (iter);
 }
@@ -62,27 +81,46 @@ void	put_pixel_color(t_fractol *f)
 	t_color	color2;
 	double	normalized_iter;
 	int		index;
+	double	smoothed_iter;
 
+	/* Puntos dentro del conjunto (máximas iteraciones) */
 	if (f->iter >= f->max_iter)
-		mlx_put_pixel(f->img, f->x, f->y, 0x000000FF);
-	else
 	{
-		/* Calcula iteración normalizada */
-		normalized_iter = (double)f->iter / f->max_iter;
-		normalized_iter = smooth_color(f->iter, f->max_iter, f->z.re, f->z.im)
-			/ f->max_iter;
-		
-		/* Obtiene colores a interpolar */
-		index = (int)(normalized_iter * (f->palette->count - 1));
-		color1.value = f->palette->colors[index];
-		color2.value = f->palette->colors[(index + 1) % f->palette->count];
-		
-		/* Calcula el factor de interpolación */
-		normalized_iter = normalized_iter * (f->palette->count - 1) - index;
-		
-		/* Interpola los colores y dibuja el píxel */
-		color1 = interpolate_colors(color1, color2, normalized_iter);
-		mlx_put_pixel(f->img, f->x, f->y, get_color(
-			color1.rgba.r, color1.rgba.g, color1.rgba.b, 0xFF));
+		mlx_put_pixel(f->img, f->x, f->y, 0x000000FF); /* Negro */
+		return;
 	}
+	
+	/* Tratamiento especial para puntos cercanos al borde en Burning Ship */
+	if (f->type == BURNINGSHIP && f->iter > f->max_iter * 0.99)
+	{
+		mlx_put_pixel(f->img, f->x, f->y, 0x000000FF); /* Negro */
+		return;
+	}
+
+	/* Suavizado opcional para transiciones de color más naturales */
+	if (f->smooth && f->iter < f->max_iter - 1)
+		smoothed_iter = smooth_color(f->iter, f->max_iter, f->z.re, f->z.im, f->type);
+	else
+		smoothed_iter = f->iter;
+	
+	/* Aplicamos shift de color para efectos artísticos */
+	smoothed_iter += f->color_shift;
+	
+	/* Normalización mejorada para mejor distribución de colores */
+	normalized_iter = fmod(smoothed_iter * 0.05, 1.0);
+
+	/* Selección de colores a interpolar */
+	index = (int)(normalized_iter * (f->palette->count - 1));
+	color1.value = f->palette->colors[index];
+	color2.value = f->palette->colors[(index + 1) % f->palette->count];
+	
+	/* Factor de interpolación más preciso */
+	normalized_iter = normalized_iter * (f->palette->count - 1) - index;
+	
+	/* Interpolación con transición mejorada */
+	color1 = interpolate_colors(color1, color2, normalized_iter);
+	
+	/* Pintar el píxel con el color calculado */
+	mlx_put_pixel(f->img, f->x, f->y, get_color(
+		color1.rgba.r, color1.rgba.g, color1.rgba.b, 0xFF));
 }

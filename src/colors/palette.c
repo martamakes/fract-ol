@@ -20,7 +20,7 @@ int	palette_len(t_palette *palettes)
 	int	i;
 
 	i = 0;
-	while (i < 3 && palettes[i].count > 0)
+	while (i < 5 && palettes[i].count > 0)
 		i++;
 	return (i);
 }
@@ -30,16 +30,22 @@ int	palette_len(t_palette *palettes)
  */
 t_palette	*init_palettes(void)
 {
-	static t_palette	array[3];
+	static t_palette	array[5];
 
-	/* Paleta 1: Azul a amarillo */
-	array[0] = (t_palette){9, 1, {0x000033FF, 0x000066FF, 0x000099FF, 
-		0x0000CCFF, 0x0000FFFF, 0xFF6600FF, 0xFF9933FF, 0xFFCC00FF, 0xFFFF33FF}};
-	/* Paleta 2: Púrpura a cyan */
-	array[1] = (t_palette){7, 1, {0x000033FF, 0x4B0082FF, 0x800080FF, 
-		0xDA70D6FF, 0xFFD700FF, 0x00CED1FF, 0xFFFFFFFF}};
-	/* Paleta 3: Azul a rojo */
-	array[2] = (t_palette){7, 1, {0x191970FF, 0x6A5ACDFF, 0x9370DBFF, 
-		0xEE82EEFF, 0xFFA07AFF, 0xFFD700FF, 0xFFFFFFFF}};
+	/* Paleta 1: Fuego - tonos cálidos */
+	array[0] = (t_palette){9, 1, {0x000000FF, 0x340700FF, 0x5C0A00FF, 
+		0x9C2100FF, 0xE73B00FF, 0xFD6A02FF, 0xFCA204FF, 0xFDD017FF, 0xFFFF00FF}};
+	/* Paleta 2: Oceano - azules y verdes */
+	array[1] = (t_palette){9, 1, {0x020233FF, 0x0C0C5CFF, 0x13139DFF, 
+		0x1919CCFF, 0x5050FFFF, 0x00FFFFFF, 0x00B7FFFF, 0x00D8A0FF, 0x00FFB9FF}};
+	/* Paleta 3: Espectro - arcoiris completo */
+	array[2] = (t_palette){7, 1, {0x9400D3FF, 0x4B0082FF, 0x0000FFFF, 
+		0x00FF00FF, 0xFFFF00FF, 0xFF7F00FF, 0xFF0000FF}};
+	/* Paleta 4: Eléctrico - negros y púrpuras con cyan */
+	array[3] = (t_palette){8, 1, {0x000000FF, 0x16001EFF, 0x380440FF, 
+		0x5F0770FF, 0x6F0990FF, 0x913CBFFF, 0xAD90D8FF, 0x00FFFFFF}};
+	/* Paleta 5: Tierra - terrosos y dorados */
+	array[4] = (t_palette){8, 1, {0x100C08FF, 0x2D231AFF, 0x5E4B34FF, 
+		0x8F754EFF, 0xBEA46DFF, 0xE8C889FF, 0xF5E8C9FF, 0xFFFFFFFF}};
 	return (array);
 }
