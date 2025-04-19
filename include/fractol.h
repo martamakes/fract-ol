@@ -64,6 +64,7 @@ typedef struct s_fractol
 {  
     mlx_t         *mlx;           /* Instancia MLX */
     mlx_image_t   *img;           /* Imagen del fractal */
+    mlx_image_t   *info_img;      /* Imagen para mostrar información */
     char          **params;       /* Parámetros (argv) */
     t_fractal_type type;          /* Tipo de fractal */
     t_complex     c;              /* Parámetro para conjunto de Julia */
@@ -81,6 +82,7 @@ typedef struct s_fractol
 	int             palette_index;  /* Índice de paleta actual */
 	int             palette_len;    /* Número de paletas */
 	bool            smooth;         /* Suavizado de colores */
+	bool            show_info;      /* Mostrar información en pantalla */
 } t_fractol;
 
 /* Funciones principales */
@@ -106,5 +108,9 @@ void    main_loop(void *param);
 /* Gestión de colores */
 t_palette *init_palettes(void);
 int	palette_len(t_palette *palettes);
+
+/* Gestión de información en pantalla */
+void	update_info_display(t_fractol *f);
+void	toggle_info_display(t_fractol *f);
 
 #endif

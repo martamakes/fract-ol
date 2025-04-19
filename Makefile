@@ -57,8 +57,7 @@ $(NAME): $(OBJS)
 	@echo "\033[0;32mfractol compiled!\033[0m"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@echo "Creating directory: $(dir $@)"
-	@mkdir -p $(dir $@)
+	@mkdir -p $(dir $@) > /dev/null 2>&1
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 # Cleaning rules

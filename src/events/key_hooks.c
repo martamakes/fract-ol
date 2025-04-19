@@ -26,6 +26,7 @@ static void	print_help(void)
 	printf("+/-: Increase/decrease maximum iterations\n");
 	printf("1/2/3: Switch between fractals\n");
 	printf("D/G/R: Change Julia set parameters\n");
+	printf("I: Toggle info display\n");
 	printf("H: Show this help\n\n");
 }
 
@@ -132,6 +133,9 @@ void	handle_keys(mlx_key_data_t keydata, void *param)
 	if (keydata.key == MLX_KEY_MINUS && keydata.action == MLX_PRESS && 
 		fractol->max_iter > 50)
 		fractol->max_iter -= 50; /* Disminuye las iteraciones */
+	/* Toggle info display */
+	if (keydata.key == MLX_KEY_I && keydata.action == MLX_PRESS)
+		toggle_info_display(fractol);
 	/* Help key */
 	if (keydata.key == MLX_KEY_H && keydata.action == MLX_PRESS)
 		print_help();
@@ -165,4 +169,8 @@ void	main_loop(void *param)
 		return;
 	handle_arrow_keys(fractol->mlx, fractol);
 	render_fractal(fractol);
+	
+	// Actualizar la información en pantalla si está activada
+	if (fractol->show_info)
+		update_info_display(fractol);
 }

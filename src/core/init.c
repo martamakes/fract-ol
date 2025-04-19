@@ -63,6 +63,8 @@ void	init_fractal_params(t_fractol *f)
 	f->palette_len = palette_len(f->palettes);
 	f->smooth = true;
 	f->color_shift = 0.0;
+	f->show_info = true; // Mostrar información por defecto
+	f->info_img = NULL;
 	if (f->type == JULIA)
 	{
 		f->shift_x = 0.0;
