@@ -62,32 +62,46 @@ void handle_scroll(double xdelta, double ydelta, void *param)
     int32_t     mouse_y;
     double      mouse_re;
     double      mouse_im;
+    double      old_zoom;
     
     f = (t_fractol *)param;
     (void)xdelta;
     
+    /* Guardar el zoom actual antes de actualizarlo */
+    old_zoom = f->zoom;
+    
     /* Obtener posición del ratón */
     mlx_get_mouse_pos(f->mlx, &mouse_x, &mouse_y);
     
-    /* Ajustar a la posición de la imagen en la ventana */
-    mouse_x -= (WIN_WIDTH - FRACT_SIZE) / 2;
+    /* Ajustar la posición del ratón al tamaño de la imagen */
+    int offset_x = (WIN_WIDTH - FRACT_SIZE) / 2;
+    int offset_y = (WIN_HEIGHT - FRACT_SIZE) / 2;
+    
+    /* Ajustar coordenadas a la imagen */
+    mouse_x -= offset_x;
+    mouse_y -= offset_y;
     
     /* Verificar si el ratón está sobre la imagen */
     if (mouse_x < 0 || mouse_x >= FRACT_SIZE || mouse_y < 0 || mouse_y >= FRACT_SIZE)
         return;
     
-    /* Convertir coordenadas de ventana a coordenadas del plano complejo */
+    /* Debug original de coordenadas */
+    printf("Original mouse coords: %d,%d (in %dx%d image)\n", mouse_x, mouse_y, FRACT_SIZE, FRACT_SIZE);
+    
+    /* Convertir coordenadas de ventana a coordenadas del plano complejo ANTES del zoom */
     mouse_re = (mouse_x - FRACT_SIZE/2.0) * f->zoom / FRACT_SIZE + f->shift_x;
     mouse_im = (mouse_y - FRACT_SIZE/2.0) * f->zoom / FRACT_SIZE + f->shift_y;
     
     /* Actualizar zoom */
     update_zoom(f, ydelta);
     
-    /* Centrar en la posición del ratón */
+    /* Recalcular desplazamiento para mantener el punto bajo el cursor */
     f->shift_x = mouse_re - (mouse_x - FRACT_SIZE/2.0) * f->zoom / FRACT_SIZE;
     f->shift_y = mouse_im - (mouse_y - FRACT_SIZE/2.0) * f->zoom / FRACT_SIZE;
     
     /* Mostrar información útil de debug */
     printf("Mouse pos: %d,%d -> %f,%f\n", mouse_x, mouse_y, mouse_re, mouse_im);
+    printf("Old zoom: %f, New zoom: %f\n", old_zoom, f->zoom);
+    printf("Shift: %f,%f\n", f->shift_x, f->shift_y);
     print_fractal_params(f);
 }

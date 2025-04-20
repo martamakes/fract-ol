@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:40:28 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/04/20 10:12:43 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/04/20 11:18:47 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 # include <stdbool.h>
 # include <stdio.h>
 
-# define WIN_WIDTH   800
+# define FRACT_SIZE  600
+# define WIN_WIDTH   600
 # define WIN_HEIGHT  600
-# define FRACT_SIZE  800
 
 /* Tipos de fractales */
 typedef enum e_fractal_type

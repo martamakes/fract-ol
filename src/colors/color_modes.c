@@ -102,7 +102,15 @@ t_color	put_pixel_color(t_fractol *f)
 	if (f->smooth)
 		color_struct = smooth_color(f);
 	else if (f->type == BURNINGSHIP) /* Usar diferente coloración para el Burning Ship */
-		color_struct = linear_color(f->iter, f->max_iter, f->palette, f->color_shift);
+	{
+		/* Calcular color con una fórmula especial para mejorar el contraste */
+		double color_value = (double)f->iter / f->max_iter;
+		int palette_idx = (f->palette_index + 1) % f->palette_len; /* Usar otra paleta */
+		color_struct = linear_color(color_value * f->max_iter * 0.8, 
+								f->max_iter, 
+								&f->palettes[palette_idx], 
+								f->color_shift);
+	}
 	else
 		color_struct = banded_color(f);
 	apply_pixel_color(f, color_struct);

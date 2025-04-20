@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:59:15 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/04/20 09:59:33 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/04/20 11:35:57 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ void	reset_view(t_fractol *f)
 	}
 	else if (f->type == BURNINGSHIP)
 	{
-		f->shift_x = -0.3;
-		f->shift_y = -0.6;
-		f->max_iter = 150;
-		f->zoom = 3.0;
+		f->shift_x = -0.25;
+		f->shift_y = -0.65;
+		f->max_iter = 200;
+		f->zoom = 4.7;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 20:52:43 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/04/20 10:12:33 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/04/20 11:34:25 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,14 @@ int	main(int argc, char **argv)
 	/* Renderizar el fractal inicial */
 	render_fractal(fractol);
 	
-	/* Agregar la imagen a la ventana */
-	if (mlx_image_to_window(fractol->mlx, fractol->img, 0, 0) == -1)
+	/* Agregar la imagen a la ventana centrada */
+	int offset_x = (WIN_WIDTH - FRACT_SIZE) / 2;
+	int offset_y = (WIN_HEIGHT - FRACT_SIZE) / 2;
+	if (mlx_image_to_window(fractol->mlx, fractol->img, offset_x, offset_y) == -1)
 		exit_error(fractol, "Failed to add image to window");
+	
+	/* Debug - mostrar offsets */
+	printf("Image placed at offset: %d,%d\n", offset_x, offset_y);
 	
 	/* Configurar eventos */
 	mlx_key_hook(fractol->mlx, handle_keys, fractol);

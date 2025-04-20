@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 23:53:55 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/04/20 09:32:08 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/04/20 11:31:50 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void	validate_julia_params(t_fractol *f, char **argv)
 void init_fractal_params(t_fractol *f)
 {
     f->zoom = 4.0;
-    f->max_iter = 100;
+    f->max_iter = 20;
     f->shift_x = 0.0;
     f->shift_y = 0.0;
     f->palettes = init_palettes();
@@ -91,13 +91,15 @@ void init_fractal_params(t_fractol *f)
     {
         validate_julia_params(f, f->params);
         /* Julia no necesita un desplazamiento por defecto */
-        f->zoom = 2.0;     /* Un zoom más cercano para mejor visualización */
+        f->zoom = 1.3;     /* Un zoom más cercano para mejor visualización */
     }
     else if (f->type == BURNINGSHIP)
     {
-        f->shift_x = -0.3;  /* Mejor centrado horizontal */
-        f->shift_y = -0.6;  /* Mejor centrado vertical para ver la "base" del barco */
-        f->max_iter = 150;  /* Aumentar significativamente las iteraciones para más detalle */
-        f->zoom = 3.0;      /* Ajustar zoom para ver más estructura */
+        f->shift_x = -0.5062;  /* Mejor centrado horizontal */
+        f->shift_y = -0.5355;  /* Mejor centrado vertical para ver la "base" del barco */
+        f->max_iter = 50;  /* Aumentar significativamente las iteraciones para eliminar puntitos */
+        f->zoom = 4.79;
+		f->color_shift = 1;
+		f->palette_index = 2;     /* Ajustar zoom para ver mejor estructura */
     }
 }
