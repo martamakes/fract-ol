@@ -12,73 +12,13 @@
 
 #include "fractol.h"
 
-int	print_usage(void)
-{
-	ft_putstr_fd("\nUsage: ./fractol <type> [params]\n\n", 1);
-	ft_putstr_fd("Types:\n", 1);
-	ft_putstr_fd("  M or Mandelbrot  : Mandelbrot set\n", 1);
-	ft_putstr_fd("  J or Julia [set/params] : Julia set variations\n", 1);
-	ft_putstr_fd("    Sets:\n", 1);
-	ft_putstr_fd("      d or dendrite : Dendrite set (-0.4 0.6)\n", 1);
-	ft_putstr_fd("      r or rabbit   : Rabbit set (-0.123 0.745)\n", 1);
-	ft_putstr_fd("      g or dragon   : Dragon set (0.36 0.1)\n", 1);
-	ft_putstr_fd("    Custom: J <real> <imaginary>\n", 1);
-	ft_putstr_fd("  B or Burningship : Burning ship fractal\n\n", 1);
-	return (EXIT_FAILURE);
-}
-
-/*
- * Valida los argumentos cortos (1 carácter) del programa
- */
-static bool	check_short_args(char **argv, int argc, t_fractol *fractol)
-{
-	if (argv[1][0] == 'M' || argv[1][0] == 'm')
-		fractol->type = MANDELBROT;
-	else if (argv[1][0] == 'B' || argv[1][0] == 'b')
-		fractol->type = BURNINGSHIP;
-	else if ((argv[1][0] == 'J' || argv[1][0] == 'j'))
-	{
-		if (argc == 3 || argc == 4)
-		{
-			fractol->type = JULIA;
-			return (true);
-		}
-	}
-	return (fractol->type != 0);
-}
-
-/*
- * Valida los argumentos largos (palabra completa) del programa
- */
-static bool	check_long_args(char **argv, int argc, t_fractol *fractol)
-{
-	if (!ft_strncmp(argv[1], "Mandelbrot", 10))
-		fractol->type = MANDELBROT;
-	else if (!ft_strncmp(argv[1], "Julia", 5) && (argc == 3 || argc == 4))
-		fractol->type = JULIA;
-	else if (!ft_strncmp(argv[1], "Burningship", 11))
-		fractol->type = BURNINGSHIP;
-	return (fractol->type != 0);
-}
-
-/*
- * Valida los argumentos pasados al programa
- */
-bool	check_args(int argc, char **argv, t_fractol *fractol)
-{
-	if (argc < 2)
-		return (false);
-	if (ft_strlen(argv[1]) == 1)
-		return (check_short_args(argv, argc, fractol));
-	else
-		return (check_long_args(argv, argc, fractol));
-}
-
+/* Main program entry */
 int	main(int argc, char **argv)
 {
 	t_fractol	*fractol;
 
-	if (!(fractol = malloc(sizeof(t_fractol))))
+	fractol = malloc(sizeof(t_fractol));
+	if (!fractol)
 		return (EXIT_FAILURE);
 	fractol->params = argv;
 	if (!check_args(argc, argv, fractol))
@@ -87,42 +27,9 @@ int	main(int argc, char **argv)
 		return (print_usage());
 	}
 	init_fractal_params(fractol);
-	
-	/* Inicializar MLX42 */
-	fractol->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "Fractol", true);
-	if (!fractol->mlx)
-		exit_error(fractol, "Failed to initialize MLX42");
-	
-	/* Crear imagen */
-	fractol->img = mlx_new_image(fractol->mlx, FRACT_SIZE, FRACT_SIZE);
-	if (!fractol->img)
-		exit_error(fractol, "Failed to create image");
-	
-	/* Renderizar el fractal inicial */
-	render_fractal(fractol);
-	
-	/* Agregar la imagen a la ventana centrada */
-	int offset_x = (WIN_WIDTH - FRACT_SIZE) / 2;
-	int offset_y = (WIN_HEIGHT - FRACT_SIZE) / 2;
-	if (mlx_image_to_window(fractol->mlx, fractol->img, offset_x, offset_y) == -1)
-		exit_error(fractol, "Failed to add image to window");
-	
-	/* Debug - mostrar offsets */
-	printf("Image placed at offset: %d,%d\n", offset_x, offset_y);
-	
-	/* Configurar eventos */
-	mlx_key_hook(fractol->mlx, handle_keys, fractol);
-	mlx_scroll_hook(fractol->mlx, handle_scroll, fractol);
-	mlx_loop_hook(fractol->mlx, main_loop, fractol);
-	
-	/* Mostrar información inicial */
-	printf("\nFractal initialized. Press H for help.\n");
-	print_fractal_params(fractol);
-	
-	/* Iniciar el bucle principal */
+	setup_mlx(fractol);
+	setup_hooks(fractol);
 	mlx_loop(fractol->mlx);
-	
-	/* Limpieza (normalmente no se llega aquí porque mlx_loop no retorna) */
 	mlx_terminate(fractol->mlx);
 	free(fractol);
 	return (EXIT_SUCCESS);

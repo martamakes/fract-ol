@@ -12,28 +12,13 @@
 
 #include "fractol.h"
 
-/**
- * Convert RGBA components to a single 32-bit value
- * 
- * @param r Red component (0-255)
- * @param g Green component (0-255)
- * @param b Blue component (0-255)
- * @param a Alpha component (0-255)
- * @return uint32_t color value in format suitable for mlx
- */
+/* Convert RGBA components to a single 32-bit value */
 uint32_t	get_color(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 {
 	return (r << 24 | g << 16 | b << 8 | a);
 }
 
-/**
- * Linearly interpolate between two integer values
- * 
- * @param first First value
- * @param second Second value
- * @param p Interpolation factor (0.0 to 1.0)
- * @return Interpolated value
- */
+/* Linearly interpolate between two integer values */
 int	ft_lerpi(int first, int second, double p)
 {
 	if (first == second)
@@ -41,26 +26,13 @@ int	ft_lerpi(int first, int second, double p)
 	return ((int)((double)first + (second - first) * p));
 }
 
-/**
- * Apply a smoothing function to improve transitions
- * Uses cubic smoothstep function
- * 
- * @param t Value to smooth (0.0 to 1.0)
- * @return Smoothed value
- */
+/* Apply a smoothing function to improve transitions - cubic smoothstep */
 double	smooth_step(double t)
 {
 	return (t * t * (3.0 - 2.0 * t));
 }
 
-/**
- * Interpolate between two colors with a smoothed transition
- * 
- * @param c1 First color
- * @param c2 Second color
- * @param p Interpolation factor (0.0 to 1.0)
- * @return Interpolated color
- */
+/* Interpolate between two colors with a smoothed transition */
 t_color	clrlerp(t_color c1, t_color c2, double p)
 {
 	t_color	c;
@@ -76,21 +48,15 @@ t_color	clrlerp(t_color c1, t_color c2, double p)
 	return (c);
 }
 
-/**
- * Apply pixel color to the image
- * 
- * @param f Fractal structure
- * @param color_struct Color to apply
- */
+/* Apply pixel color to the image */
 void	apply_pixel_color(t_fractol *f, t_color color_struct)
 {
 	uint32_t	color_value;
 
 	color_value = get_color(
-		color_struct.rgba.r,
-		color_struct.rgba.g,
-		color_struct.rgba.b,
-		color_struct.rgba.a
-	);
+			color_struct.rgba.r,
+			color_struct.rgba.g,
+			color_struct.rgba.b,
+			color_struct.rgba.a);
 	mlx_put_pixel(f->img, f->x, f->y, color_value);
 }

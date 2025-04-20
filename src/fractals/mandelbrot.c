@@ -17,17 +17,12 @@ void	calculate_mandelbrot(t_fractol *f)
 	t_complex	z;
 	t_complex	c;
 	double		temp;
-	
-	/* Calcular coordenada compleja desde píxel */
+
 	c.re = (f->x - FRACT_SIZE / 2.0) * f->zoom / FRACT_SIZE + f->shift_x;
 	c.im = (f->y - FRACT_SIZE / 2.0) * f->zoom / FRACT_SIZE + f->shift_y;
-	
-	/* Inicializar valores */
 	z.re = 0;
 	z.im = 0;
 	f->iter = 0;
-	
-	/* Algoritmo principal de Mandelbrot */
 	while ((z.re * z.re + z.im * z.im) < 4.0 && f->iter < f->max_iter)
 	{
 		temp = z.re * z.re - z.im * z.im + c.re;
@@ -35,8 +30,6 @@ void	calculate_mandelbrot(t_fractol *f)
 		z.re = temp;
 		f->iter++;
 	}
-	
-	/* Guardar valor final para cálculo de color */
 	f->z = z;
 	put_pixel_color(f);
 }
