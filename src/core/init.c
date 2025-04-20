@@ -3,14 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvigara- <mvigara-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 23:53:55 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/02 14:20:11 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/04/20 09:32:08 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
+void print_fractal_params(t_fractol *f)
+{
+    printf("\n--- Fractal Parameters ---\n");
+    printf("Type: %d (%s)\n", f->type, 
+           f->type == MANDELBROT ? "Mandelbrot" : 
+           f->type == JULIA ? "Julia" : 
+           f->type == BURNINGSHIP ? "Burning Ship" : "Unknown");
+    printf("Position: shift_x=%.6f, shift_y=%.6f\n", f->shift_x, f->shift_y);
+    printf("Zoom: %.6f\n", f->zoom);
+    printf("Max iterations: %d\n", f->max_iter);
+    printf("Color shift: %d\n", f->color_shift);
+    printf("Palette index: %d\n", f->palette_index);
+    printf("Smooth coloring: %s\n", f->smooth ? "On" : "Off");
+    
+    if (f->type == JULIA)
+        printf("Julia params: c_re=%.6f, c_im=%.6f\n", f->c.re, f->c.im);
+    printf("-------------------------\n");
+}
 
 static void	set_predefined_julia(t_fractol *f, char set_type)
 {
@@ -51,53 +70,34 @@ static void	validate_julia_params(t_fractol *f, char **argv)
 		exit_error(f, "Invalid Julia parameters");
 }
 
-void	init_fractal_params(t_fractol *f)
+void init_fractal_params(t_fractol *f)
 {
-	f->zoom = 4.0;
-	f->max_iter = 100;
-	f->shift_x = -0.5;
-	f->shift_y = 0.0;
-	f->palettes = init_palettes();
-	f->palette_index = 0;
-	f->palette = &f->palettes[0];
-	f->palette_len = palette_len(f->palettes);
-	f->smooth = true;
-	f->color_shift = 0.0;
-	if (f->type == JULIA)
-	{
-		f->shift_x = 0.0;
-		validate_julia_params(f, f->params);
-	}
-	else if (f->type == BURNINGSHIP)
-	{
-		f->shift_x = -0.4;
-		f->shift_y = -0.5;
-		f->max_iter = 1000; /* Incrementamos drásticamente las iteraciones */
-		f->zoom = 3.5;
-	}
-}
-
-void	init_fractol(t_fractol *f)
-{
-	f->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "42 Fractol", true);
-	if (!f->mlx)
-		exit_error(f, "MLX initialization failed");
-	f->img = mlx_new_image(f->mlx, FRACT_SIZE, FRACT_SIZE);
-	if (!f->img)
-	{
-		mlx_terminate(f->mlx);
-		exit_error(f, "Image creation failed");
-	}
-	init_fractal_params(f);
-	if (mlx_image_to_window(f->mlx, f->img, (WIN_WIDTH - FRACT_SIZE) / 2, 0) < 0)
-	{
-		mlx_delete_image(f->mlx, f->img);
-		mlx_terminate(f->mlx);
-		exit_error(f, "Cannot put image to window");
-	}
-	mlx_key_hook(f->mlx, &handle_keys, f);
-	mlx_scroll_hook(f->mlx, &handle_scroll, f);
-	mlx_loop_hook(f->mlx, &main_loop, f);
-	render_fractal(f);
-	mlx_loop(f->mlx);
+    f->zoom = 4.0;
+    f->max_iter = 100;
+    f->shift_x = 0.0;
+    f->shift_y = 0.0;
+    f->palettes = init_palettes();
+    f->palette_index = 0;
+    f->palette = &f->palettes[0];
+    f->palette_len = palette_len(f->palettes);
+    f->smooth = true;
+    f->color_shift = 0.0;
+    
+    if (f->type == MANDELBROT)
+    {
+        f->shift_x = -0.5;  /* Centra Mandelbrot horizontalmente */
+    }
+    else if (f->type == JULIA)
+    {
+        validate_julia_params(f, f->params);
+        /* Julia no necesita un desplazamiento por defecto */
+        f->zoom = 2.0;     /* Un zoom más cercano para mejor visualización */
+    }
+    else if (f->type == BURNINGSHIP)
+    {
+        f->shift_x = -0.3;  /* Mejor centrado horizontal */
+        f->shift_y = -0.6;  /* Mejor centrado vertical para ver la "base" del barco */
+        f->max_iter = 150;  /* Aumentar significativamente las iteraciones para más detalle */
+        f->zoom = 3.0;      /* Ajustar zoom para ver más estructura */
+    }
 }

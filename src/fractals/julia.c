@@ -12,21 +12,27 @@
 
 #include "fractol.h"
 
-void calculate_julia(t_fractol *f)
+void	calculate_julia(t_fractol *f)
 {
-    t_complex z;
-    double temp;
-    
-    z.re = (f->x - FRACT_SIZE / 2.0) * f->zoom / FRACT_SIZE + f->shift_x;
-    z.im = (f->y - FRACT_SIZE / 2.0) * f->zoom / FRACT_SIZE + f->shift_y;
-    f->iter = 0;
-    while ((z.re * z.re + z.im * z.im) < 4.0 && f->iter < f->max_iter) 
-    {
-        temp = z.re * z.re - z.im * z.im + f->c.re;
-        z.im = 2.0 * z.re * z.im + f->c.im;
-        z.re = temp;
-        f->iter++;
-    }
-    f->z = z;
-    put_pixel_color(f);
+	t_complex	z;
+	double		temp;
+	
+	/* Calcular punto inicial desde coordenadas de píxel */
+	z.re = (f->x - FRACT_SIZE / 2.0) * f->zoom / FRACT_SIZE + f->shift_x;
+	z.im = (f->y - FRACT_SIZE / 2.0) * f->zoom / FRACT_SIZE + f->shift_y;
+	f->iter = 0;
+	
+	/* Algoritmo principal de Julia */
+	while ((z.re * z.re + z.im * z.im) < 4.0 && f->iter < f->max_iter)
+	{
+		// Usando el parámetro c fijo para el conjunto de Julia
+		temp = z.re * z.re - z.im * z.im + f->c.re;
+		z.im = 2.0 * z.re * z.im + f->c.im;
+		z.re = temp;
+		f->iter++;
+	}
+	
+	/* Guardar valor final para cálculo de color */
+	f->z = z;
+	put_pixel_color(f);
 }

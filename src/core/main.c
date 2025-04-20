@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 20:52:43 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/04 13:00:14 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/04/20 10:12:33 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,39 @@ int	main(int argc, char **argv)
 		free(fractol);
 		return (print_usage());
 	}
-	init_fractol(fractol);
-	return (0);
+	init_fractal_params(fractol);
+	
+	/* Inicializar MLX42 */
+	fractol->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "Fractol", true);
+	if (!fractol->mlx)
+		exit_error(fractol, "Failed to initialize MLX42");
+	
+	/* Crear imagen */
+	fractol->img = mlx_new_image(fractol->mlx, FRACT_SIZE, FRACT_SIZE);
+	if (!fractol->img)
+		exit_error(fractol, "Failed to create image");
+	
+	/* Renderizar el fractal inicial */
+	render_fractal(fractol);
+	
+	/* Agregar la imagen a la ventana */
+	if (mlx_image_to_window(fractol->mlx, fractol->img, 0, 0) == -1)
+		exit_error(fractol, "Failed to add image to window");
+	
+	/* Configurar eventos */
+	mlx_key_hook(fractol->mlx, handle_keys, fractol);
+	mlx_scroll_hook(fractol->mlx, handle_scroll, fractol);
+	mlx_loop_hook(fractol->mlx, main_loop, fractol);
+	
+	/* Mostrar información inicial */
+	printf("\nFractal initialized. Press H for help.\n");
+	print_fractal_params(fractol);
+	
+	/* Iniciar el bucle principal */
+	mlx_loop(fractol->mlx);
+	
+	/* Limpieza (normalmente no se llega aquí porque mlx_loop no retorna) */
+	mlx_terminate(fractol->mlx);
+	free(fractol);
+	return (EXIT_SUCCESS);
 }

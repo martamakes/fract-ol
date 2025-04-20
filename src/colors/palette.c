@@ -3,17 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   palette.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvigara- <mvigara-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 12:03:04 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/04 12:52:37 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/04/20 09:56:02 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-/* 
- * Calcula la longitud de un array de paletas
+/**
+ * Calculate the length of a palette array
+ * 
+ * @param palettes Array of color palettes
+ * @return Number of valid palettes in the array
  */
 int	palette_len(t_palette *palettes)
 {
@@ -25,27 +28,92 @@ int	palette_len(t_palette *palettes)
 	return (i);
 }
 
-/*
- * Inicializa las paletas de colores predefinidas
+/**
+ * Initialize palette 1: Blue and gold theme
+ * 
+ * @param palette Palette to initialize
+ */
+static void	init_palette_blue_gold(t_palette *palette)
+{
+	*palette = (t_palette){7, 1, {
+		0x000000FF,
+		0x0A1172FF,
+		0x0000FFFF,
+		0x00FFFFFF,
+		0x7DF9FFFF,
+		0xFFD700FF,
+		0xFFFFFFFF
+	}};
+}
+
+/**
+ * Initialize palette 2: Purple and green theme
+ * 
+ * @param palette Palette to initialize
+ */
+static void	init_palette_purple_green(t_palette *palette)
+{
+	*palette = (t_palette){7, 1, {
+		0x000000FF,
+		0x4B0082FF,
+		0x800080FF,
+		0xDA70D6FF,
+		0x00FF00FF,
+		0x32CD32FF,
+		0xADFF2FFF
+	}};
+}
+
+/**
+ * Initialize palette 3: Fire theme
+ * 
+ * @param palette Palette to initialize
+ */
+static void	init_palette_fire(t_palette *palette)
+{
+	*palette = (t_palette){7, 1, {
+		0x000000FF,
+		0x8B0000FF,
+		0xFF0000FF,
+		0xFF4500FF,
+		0xFFA500FF,
+		0xFFD700FF,
+		0xFFFF00FF
+	}};
+}
+
+/**
+ * Initialize all predefined color palettes
+ * 
+ * @return Array of initialized palettes
  */
 t_palette	*init_palettes(void)
 {
 	static t_palette	array[5];
 
-	/* Paleta 1: Fuego - tonos cálidos */
-	array[0] = (t_palette){9, 1, {0x000000FF, 0x340700FF, 0x5C0A00FF, 
-		0x9C2100FF, 0xE73B00FF, 0xFD6A02FF, 0xFCA204FF, 0xFDD017FF, 0xFFFF00FF}};
-	/* Paleta 2: Oceano - azules y verdes */
-	array[1] = (t_palette){9, 1, {0x020233FF, 0x0C0C5CFF, 0x13139DFF, 
-		0x1919CCFF, 0x5050FFFF, 0x00FFFFFF, 0x00B7FFFF, 0x00D8A0FF, 0x00FFB9FF}};
-	/* Paleta 3: Espectro - arcoiris completo */
-	array[2] = (t_palette){7, 1, {0x9400D3FF, 0x4B0082FF, 0x0000FFFF, 
-		0x00FF00FF, 0xFFFF00FF, 0xFF7F00FF, 0xFF0000FF}};
-	/* Paleta 4: Eléctrico - negros y púrpuras con cyan */
-	array[3] = (t_palette){8, 1, {0x000000FF, 0x16001EFF, 0x380440FF, 
-		0x5F0770FF, 0x6F0990FF, 0x913CBFFF, 0xAD90D8FF, 0x00FFFFFF}};
-	/* Paleta 5: Tierra - terrosos y dorados */
-	array[4] = (t_palette){8, 1, {0x100C08FF, 0x2D231AFF, 0x5E4B34FF, 
-		0x8F754EFF, 0xBEA46DFF, 0xE8C889FF, 0xF5E8C9FF, 0xFFFFFFFF}};
+	init_palette_blue_gold(&array[0]);
+	init_palette_purple_green(&array[1]);
+	init_palette_fire(&array[2]);
+	
+	array[3] = (t_palette){7, 1, {
+		0x000000FF,
+		0x000080FF,
+		0x0000CDFF,
+		0x4169E1FF,
+		0x87CEEBFF,
+		0x00FFFFFF,
+		0xE0FFFFFF
+	}};
+	
+	array[4] = (t_palette){7, 1, {
+		0x000000FF,
+		0x1A1A1AFF,
+		0x333333FF,
+		0x666666FF,
+		0x999999FF,
+		0xCCCCCCFF,
+		0xFFFFFFFF
+	}};
+	
 	return (array);
 }
